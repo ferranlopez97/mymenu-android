@@ -123,3 +123,5 @@ Adding a new feature to the app only requires one line in `AppModules.kt`.
 4. Run the `app` configuration on a device or emulator
 
 No API keys or external services are required to build.
+
+test
