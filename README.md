@@ -123,18 +123,3 @@ Adding a new feature to the app only requires one line in `AppModules.kt`.
 4. Run the `app` configuration on a device or emulator
 
 No API keys or external services are required to build.
-
----
-
-## Package naming
-
-All modules share the base package `com.flopez.*`:
-
-```
-com.flopez.core.domain.*
-com.flopez.core.data.*
-com.flopez.core.presentation.*
-com.flopez.feature.authentication.domain.*
-com.flopez.feature.authentication.data.*
-com.flopez.feature.authentication.presentation.*
-```
