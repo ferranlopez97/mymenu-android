@@ -1,0 +1,13 @@
+<resources>
+    <string name="login_title_sign_in">Iniciar sesión</string>
+    <string name="login_title_register">Crear cuenta</string>
+    <string name="login_label_username">Usuario</string>
+    <string name="login_label_password">Contraseña</string>
+    <string name="login_checkbox_register">Registrar</string>
+    <string name="login_button_sign_in">Iniciar sesión</string>
+    <string name="login_button_register">Registrar</string>
+    <string name="login_toast_login_success">Login correcto</string>
+    <string name="login_toast_login_error">Error al iniciar sesión</string>
+    <string name="login_toast_register_success">Registro correcto</string>
+    <string name="login_toast_register_error">Error al registrarse</string>
+</resources>

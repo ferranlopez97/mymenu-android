@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -29,6 +30,7 @@ import com.flopez.core.presentation.component.SimpleButton
 import com.flopez.core.presentation.mvi.ObserveEffectOnLifeCycle
 import com.flopez.core.presentation.theme.VerdantPantryTheme
 import com.flopez.core.presentation.theme.VerdantTheme
+import com.flopez.feature.authentication.presentation.R
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract.Effect
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract.Intent
@@ -45,7 +47,11 @@ fun LoginScreen(
         effect = viewModel.effect
     ) { effect ->
         when (effect) {
-            is Effect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+            is Effect.ShowToast -> Toast.makeText(
+                context,
+                effect.message,
+                Toast.LENGTH_SHORT,
+            ).show()
         }
     }
 
@@ -72,7 +78,10 @@ private fun LoginContent(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text  = if (uiState.isRegisterMode) "Crear cuenta" else "Iniciar sesión",
+                text  = stringResource(
+                    if (uiState.isRegisterMode) R.string.login_title_register
+                    else R.string.login_title_sign_in
+                ),
                 style = VerdantTheme.typography.headlineSmall,
             )
 
@@ -81,7 +90,7 @@ private fun LoginContent(
             OutlinedTextField(
                 value         = uiState.username,
                 onValueChange = { onIntent(Intent.OnUserNameChange(it)) },
-                label         = { Text("Usuario") },
+                label         = { Text(stringResource(R.string.login_label_username)) },
                 singleLine    = true,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
@@ -93,7 +102,7 @@ private fun LoginContent(
             OutlinedTextField(
                 value         = uiState.password,
                 onValueChange = { onIntent(Intent.OnPasswordChange(it)) },
-                label         = { Text("Contraseña") },
+                label         = { Text(stringResource(R.string.login_label_password)) },
                 singleLine    = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(
@@ -111,12 +120,15 @@ private fun LoginContent(
                     checked   = uiState.isRegisterMode,
                     onCheckedChange = { onIntent(Intent.OnRegisterModeToggle) },
                 )
-                Text(text = "Registrar")
+                Text(text = stringResource(R.string.login_checkbox_register))
             }
 
             SimpleButton(
                 modifier  = Modifier.fillMaxWidth(),
-                text      = if (uiState.isRegisterMode) "Registrar" else "Iniciar sesión",
+                text      = stringResource(
+                    if (uiState.isRegisterMode) R.string.login_button_register
+                    else R.string.login_button_sign_in
+                ),
                 onClick   = { onIntent(Intent.OnLoginClick) },
                 isLoading = uiState.isLoading,
                 isEnabled = !uiState.isLoading,

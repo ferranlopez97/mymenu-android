@@ -5,8 +5,10 @@ import com.flopez.core.domain.usecase.base.finally
 import com.flopez.core.domain.usecase.base.onError
 import com.flopez.core.domain.usecase.base.onSuccess
 import com.flopez.core.presentation.mvi.BaseViewModel
+import com.flopez.core.presentation.string.StringProvider
 import com.flopez.feature.authentication.domain.usecase.LoginUseCase
 import com.flopez.feature.authentication.domain.usecase.RegisterUseCase
+import com.flopez.feature.authentication.presentation.R
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract.Effect
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract.Intent
 import com.flopez.feature.authentication.presentation.login.model.LoginScreenContract.State
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
+    private val stringProvider: StringProvider,
 ) : BaseViewModel<State, Intent, Effect>(State()) {
 
     override fun onIntent(intent: Intent) {
@@ -43,6 +46,7 @@ class LoginViewModel(
 
         if (state.value.isRegisterMode) onRegisterClicked() else onLoginClicked()
     }
+
     private fun onLoginClicked() {
         updateState { copy(isLoading = true) }
 
@@ -53,9 +57,9 @@ class LoginViewModel(
                     password = state.value.password,
                 )
             ).onSuccess {
-                sendEffect(Effect.ShowToast("Login correcto"))
+                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_login_success)))
             }.onError {
-                sendEffect(Effect.ShowToast("Error al iniciar sesión"))
+                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_login_error)))
             }.finally {
                 updateState { copy(isLoading = false) }
             }
@@ -73,9 +77,9 @@ class LoginViewModel(
                     password = state.value.password,
                 )
             ).onSuccess {
-                sendEffect(Effect.ShowToast("Registro correcto"))
+                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_register_success)))
             }.onError {
-                sendEffect(Effect.ShowToast("Error al registrarse"))
+                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_register_error)))
             }.finally {
                 updateState { copy(isLoading = false) }
             }
