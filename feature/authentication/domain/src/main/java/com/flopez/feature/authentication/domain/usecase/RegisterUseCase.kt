@@ -5,17 +5,17 @@ import com.flopez.core.domain.usecase.base.UseCaseResult
 import com.flopez.feature.authentication.domain.repository.AuthRepository
 import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+class RegisterUseCase @Inject constructor(
     private val authRepository: AuthRepository
-) : UseCase<LoginUseCase.Params, Unit>() {
+) : UseCase<RegisterUseCase.Params, Unit>() {
 
     override suspend fun run(params: Params): UseCaseResult<Unit> {
-        val result = authRepository.login(
+        val result = authRepository.register(
             user = params.username,
-            password = params.password
+            password = params.password,
         )
-
-        return if (result) UseCaseResult.Success(Unit) else UseCaseResult.Error(Exception("errororor xd"))
+        return if (result) UseCaseResult.Success(Unit)
+        else UseCaseResult.Error(Exception("Registration failed"))
     }
 
     data class Params(

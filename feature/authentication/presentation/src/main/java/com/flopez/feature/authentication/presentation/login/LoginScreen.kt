@@ -2,15 +2,17 @@ package com.flopez.feature.authentication.presentation.login
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,25 +38,20 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
 ) {
-
     val uiState by viewModel.state.collectAsStateWithLifecycle()
-
     val context = LocalContext.current
 
     ObserveEffectOnLifeCycle(
         effect = viewModel.effect
     ) { effect ->
         when (effect) {
-            is Effect.ShowToast -> {
-                Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
-            }
-            else -> Unit
+            is Effect.ShowToast -> Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
         }
     }
 
     LoginContent(
-        uiState   = uiState,
-        onIntent  = viewModel::onIntent,
+        uiState  = uiState,
+        onIntent = viewModel::onIntent,
     )
 }
 
@@ -63,19 +60,19 @@ private fun LoginContent(
     uiState: LoginScreenContract.State,
     onIntent: (Intent) -> Unit,
 ) {
-    Box(
+    Scaffold (
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .fillMaxSize()
+                .padding(it)
+                .padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text  = "Iniciar sesión",
+                text  = if (uiState.isRegisterMode) "Crear cuenta" else "Iniciar sesión",
                 style = VerdantTheme.typography.headlineSmall,
             )
 
@@ -106,39 +103,48 @@ private fun LoginContent(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Checkbox(
+                    checked   = uiState.isRegisterMode,
+                    onCheckedChange = { onIntent(Intent.OnRegisterModeToggle) },
+                )
+                Text(text = "Registrar")
+            }
 
             SimpleButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = "Iniciar sesión",
-                onClick  = { onIntent(Intent.OnLoginClick) },
-                isLoading  = uiState.isLoading,
-                isEnabled = !uiState.isLoading
+                modifier  = Modifier.fillMaxWidth(),
+                text      = if (uiState.isRegisterMode) "Registrar" else "Iniciar sesión",
+                onClick   = { onIntent(Intent.OnLoginClick) },
+                isLoading = uiState.isLoading,
+                isEnabled = !uiState.isLoading,
             )
         }
     }
 }
 
-// ─── Preview ────────────────────────────────────────────────
+// ─── Previews ───────────────────────────────────────────────
 
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
     VerdantPantryTheme {
         LoginContent(
-            uiState   = LoginScreenContract.State(),
-            onIntent  = {},
+            uiState  = LoginScreenContract.State(),
+            onIntent = {},
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun LoginLoadingPreview() {
+private fun RegisterPreview() {
     VerdantPantryTheme {
         LoginContent(
-            uiState   = LoginScreenContract.State(),
-            onIntent  = {},
+            uiState  = LoginScreenContract.State(isRegisterMode = true),
+            onIntent = {},
         )
     }
 }

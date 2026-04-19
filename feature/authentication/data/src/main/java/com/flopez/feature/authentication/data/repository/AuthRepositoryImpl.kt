@@ -1,20 +1,31 @@
 package com.flopez.feature.authentication.data.repository
 
 import com.flopez.core.domain.dispatcher.DispatcherProvider
+import com.flopez.feature.authentication.data.provider.AuthProvider
 import com.flopez.feature.authentication.domain.repository.AuthRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import kotlin.random.Random
-import kotlin.time.Duration.Companion.seconds
 
 class AuthRepositoryImpl(
-    private val dispatchers: DispatcherProvider
+    private val dispatchers: DispatcherProvider,
+    private val authProvider: AuthProvider,
 ) : AuthRepository {
 
-    override suspend fun login(user: String, pwd: String) : Boolean {
+    override suspend fun login(user: String, password: String) : Boolean {
         return withContext(dispatchers.IO) {
-            delay(1.5.seconds)
-            Random.nextInt(0, 10)  > 5
+            authProvider.login(user, password)
         }
+    }
+
+    override suspend fun register(
+        user: String,
+        password: String
+    ) : Boolean {
+        return withContext(dispatchers.IO) {
+            authProvider.register(user, password)
+        }
+    }
+
+    override suspend fun logout() {
+        authProvider.logout()
     }
 }
