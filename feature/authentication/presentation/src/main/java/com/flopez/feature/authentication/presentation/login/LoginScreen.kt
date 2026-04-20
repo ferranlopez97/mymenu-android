@@ -49,7 +49,7 @@ fun LoginScreen(
         when (effect) {
             is Effect.ShowToast -> Toast.makeText(
                 context,
-                effect.message,
+                effect.message.asString(context),
                 Toast.LENGTH_SHORT,
             ).show()
         }

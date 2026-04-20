@@ -1,6 +1,7 @@
 package com.flopez.feature.authentication.presentation.login.model
 
 import com.flopez.core.presentation.mvi.Contract
+import com.flopez.core.presentation.string.UIText
 
 object LoginScreenContract {
 
@@ -19,6 +20,6 @@ object LoginScreenContract {
     }
 
     sealed interface Effect : Contract.Effect {
-        data class ShowToast(val message: String) : Effect
+        data class ShowToast(val message: UIText) : Effect
     }
 }

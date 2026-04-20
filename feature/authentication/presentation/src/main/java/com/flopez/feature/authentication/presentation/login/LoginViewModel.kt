@@ -1,11 +1,12 @@
 package com.flopez.feature.authentication.presentation.login
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.flopez.core.domain.usecase.base.finally
 import com.flopez.core.domain.usecase.base.onError
 import com.flopez.core.domain.usecase.base.onSuccess
 import com.flopez.core.presentation.mvi.BaseViewModel
-import com.flopez.core.presentation.string.StringProvider
+import com.flopez.core.presentation.string.UIText
 import com.flopez.feature.authentication.domain.usecase.LoginUseCase
 import com.flopez.feature.authentication.domain.usecase.RegisterUseCase
 import com.flopez.feature.authentication.presentation.R
@@ -17,14 +18,13 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
-    private val stringProvider: StringProvider,
 ) : BaseViewModel<State, Intent, Effect>(State()) {
 
     override fun onIntent(intent: Intent) {
         when (intent) {
-            is Intent.OnUserNameChange    -> onUsernameChanged(intent.newValue)
-            is Intent.OnPasswordChange    -> onPasswordChanged(intent.newValue)
-            is Intent.OnLoginClick        -> onCTAClicked()
+            is Intent.OnUserNameChange     -> onUsernameChanged(intent.newValue)
+            is Intent.OnPasswordChange     -> onPasswordChanged(intent.newValue)
+            is Intent.OnLoginClick         -> onCTAClicked()
             is Intent.OnRegisterModeToggle -> onRegisterModeToggled()
         }
     }
@@ -57,9 +57,9 @@ class LoginViewModel(
                     password = state.value.password,
                 )
             ).onSuccess {
-                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_login_success)))
+                sendToastEffect(R.string.login_toast_login_success)
             }.onError {
-                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_login_error)))
+                sendToastEffect(R.string.login_toast_login_error)
             }.finally {
                 updateState { copy(isLoading = false) }
             }
@@ -77,12 +77,16 @@ class LoginViewModel(
                     password = state.value.password,
                 )
             ).onSuccess {
-                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_register_success)))
+                sendToastEffect(R.string.login_toast_register_success)
             }.onError {
-                sendEffect(Effect.ShowToast(stringProvider.getString(R.string.login_toast_register_error)))
+                sendToastEffect(R.string.login_toast_register_error)
             }.finally {
                 updateState { copy(isLoading = false) }
             }
         }
+    }
+
+    private fun sendToastEffect(@StringRes res: Int) {
+        sendEffect(Effect.ShowToast(UIText.StringResource(R.string.login_toast_register_error)))
     }
 }
