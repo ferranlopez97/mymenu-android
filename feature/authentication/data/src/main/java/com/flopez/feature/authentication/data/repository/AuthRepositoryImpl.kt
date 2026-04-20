@@ -3,6 +3,7 @@ package com.flopez.feature.authentication.data.repository
 import com.flopez.core.domain.dispatcher.DispatcherProvider
 import com.flopez.feature.authentication.data.provider.AuthProvider
 import com.flopez.feature.authentication.domain.repository.AuthRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class AuthRepositoryImpl(
@@ -28,4 +29,6 @@ class AuthRepositoryImpl(
     override suspend fun logout() {
         authProvider.logout()
     }
+
+    override fun observeSession(): Flow<Boolean> = authProvider.observeSession()
 }
