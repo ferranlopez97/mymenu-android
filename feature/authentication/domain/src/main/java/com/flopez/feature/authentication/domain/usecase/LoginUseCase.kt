@@ -3,10 +3,9 @@ package com.flopez.feature.authentication.domain.usecase
 import com.flopez.core.domain.usecase.base.UseCase
 import com.flopez.core.domain.usecase.base.UseCaseResult
 import com.flopez.feature.authentication.domain.repository.AuthRepository
-import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
-    private val authRepository: AuthRepository
+class LoginUseCase(
+    private val authRepository: AuthRepository,
 ) : UseCase<LoginUseCase.Params, Unit>() {
 
     override suspend fun run(params: Params): UseCaseResult<Unit> {

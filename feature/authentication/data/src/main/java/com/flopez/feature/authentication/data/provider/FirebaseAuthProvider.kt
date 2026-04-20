@@ -1,6 +1,10 @@
 package com.flopez.feature.authentication.data.provider
 
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthProvider(
@@ -20,4 +24,12 @@ class FirebaseAuthProvider(
     override suspend fun logout() {
         firebaseAuth.signOut()
     }
+
+    override fun observeSession(): Flow<Boolean> = callbackFlow {
+        val listener = FirebaseAuth.AuthStateListener { auth ->
+            trySend(auth.currentUser != null)
+        }
+        firebaseAuth.addAuthStateListener(listener)
+        awaitClose { firebaseAuth.removeAuthStateListener(listener) }
+    }.distinctUntilChanged()
 }

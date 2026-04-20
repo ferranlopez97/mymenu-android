@@ -87,6 +87,6 @@ class LoginViewModel(
     }
 
     private fun sendToastEffect(@StringRes res: Int) {
-        sendEffect(Effect.ShowToast(UIText.StringResource(R.string.login_toast_register_error)))
+        sendEffect(Effect.ShowToast(UIText.StringResource(res)))
     }
 }
