@@ -37,9 +37,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-
     // Navigation 3
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
