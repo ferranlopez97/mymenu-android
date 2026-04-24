@@ -13,6 +13,7 @@ private val appPresentationModule = module {
 }
 
 val appModules = listOf(
+    supabaseModule,
     coreDataModule,
     corePresentationModule,
     appPresentationModule,

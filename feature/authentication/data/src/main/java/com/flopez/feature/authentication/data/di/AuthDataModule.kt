@@ -1,7 +1,7 @@
 package com.flopez.feature.authentication.data.di
 
 import com.flopez.feature.authentication.data.provider.AuthProvider
-import com.flopez.feature.authentication.data.provider.FirebaseAuthProvider
+import com.flopez.feature.authentication.data.provider.SupabaseAuthProvider
 import com.flopez.feature.authentication.data.repository.AuthRepositoryImpl
 import com.flopez.feature.authentication.domain.repository.AuthRepository
 import com.google.firebase.Firebase
@@ -11,6 +11,6 @@ import org.koin.dsl.module
 
 val authDataModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
-    single<AuthProvider> { FirebaseAuthProvider(get()) }
-    single< FirebaseAuth> { Firebase.auth }
+    single<AuthProvider> { SupabaseAuthProvider(get()) }
+    single<FirebaseAuth> { Firebase.auth }
 }

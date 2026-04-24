@@ -31,4 +31,6 @@ class AuthRepositoryImpl(
     }
 
     override fun observeSession(): Flow<Boolean> = authProvider.observeSession()
+
+    override fun observeUserEmail(): Flow<String?> = authProvider.observeUserEmail()
 }

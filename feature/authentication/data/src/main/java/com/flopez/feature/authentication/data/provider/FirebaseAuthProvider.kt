@@ -5,6 +5,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthProvider(
@@ -25,11 +26,15 @@ class FirebaseAuthProvider(
         firebaseAuth.signOut()
     }
 
-    override fun observeSession(): Flow<Boolean> = callbackFlow {
-        val listener = FirebaseAuth.AuthStateListener { auth ->
-            trySend(auth.currentUser != null)
-        }
+    private fun authStateFlow(): Flow<FirebaseAuth> = callbackFlow {
+        val listener = FirebaseAuth.AuthStateListener { auth -> trySend(auth) }
         firebaseAuth.addAuthStateListener(listener)
         awaitClose { firebaseAuth.removeAuthStateListener(listener) }
-    }.distinctUntilChanged()
+    }
+
+    override fun observeSession(): Flow<Boolean> =
+        authStateFlow().map { it.currentUser != null }.distinctUntilChanged()
+
+    override fun observeUserEmail(): Flow<String?> =
+        authStateFlow().map { it.currentUser?.email }.distinctUntilChanged()
 }

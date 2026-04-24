@@ -10,4 +10,6 @@ interface AuthRepository {
     suspend fun logout()
 
     fun observeSession(): Flow<Boolean>
+
+    fun observeUserEmail(): Flow<String?>
 }
