@@ -32,6 +32,8 @@ dependencies {
     implementation(project(":feature:authentication:presentation"))
     implementation(project(":feature:home:di"))
     implementation(project(":feature:home:presentation"))
+    implementation(project(":feature:notes:di"))
+    implementation(project(":feature:notes:presentation"))
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)

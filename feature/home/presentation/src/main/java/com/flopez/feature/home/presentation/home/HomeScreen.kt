@@ -31,6 +31,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
+    onOpenNotes: () -> Unit = {},
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -51,6 +52,7 @@ fun HomeScreen(
     HomeContent(
         uiState = uiState,
         onIntent = viewModel::onIntent,
+        onOpenNotes = onOpenNotes,
     )
 }
 
@@ -58,6 +60,7 @@ fun HomeScreen(
 private fun HomeContent(
     uiState: HomeScreenContract.State,
     onIntent: (Intent) -> Unit,
+    onOpenNotes: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -87,6 +90,14 @@ private fun HomeContent(
 
             SimpleButton(
                 modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.home_notes_button),
+                onClick = onOpenNotes,
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            SimpleButton(
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.home_logout_button),
                 onClick = { onIntent(Intent.OnLogoutClick) },
                 isLoading = uiState.isLoggingOut,
@@ -103,6 +114,7 @@ private fun HomePreview() {
         HomeContent(
             uiState = HomeScreenContract.State(),
             onIntent = {},
+            onOpenNotes = {},
         )
     }
 }

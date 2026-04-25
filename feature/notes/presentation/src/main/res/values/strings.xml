@@ -1,0 +1,13 @@
+<resources>
+    <string name="notes_add">Añadir nota</string>
+    <string name="notes_delete">Borrar nota</string>
+    <string name="notes_empty">Aún no tienes notas</string>
+    <string name="notes_dialog_title">Nueva nota</string>
+    <string name="notes_field_title">Título</string>
+    <string name="notes_field_subtitle">Subtítulo</string>
+    <string name="notes_save">Guardar</string>
+    <string name="notes_cancel">Cancelar</string>
+    <string name="notes_load_error">No se pudieron cargar las notas</string>
+    <string name="notes_create_error">No se pudo crear la nota</string>
+    <string name="notes_delete_error">No se pudo borrar la nota</string>
+</resources>
