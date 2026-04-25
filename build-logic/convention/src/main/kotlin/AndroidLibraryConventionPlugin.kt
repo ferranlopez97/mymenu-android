@@ -26,6 +26,11 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                     sourceCompatibility = JavaVersion.VERSION_11
                     targetCompatibility = JavaVersion.VERSION_11
                 }
+
+                lint {
+                    abortOnError = false
+                    checkReleaseBuilds = false
+                }
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")

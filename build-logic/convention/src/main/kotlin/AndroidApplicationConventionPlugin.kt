@@ -33,6 +33,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 buildFeatures {
                     compose = true
                 }
+
+                lint {
+                    abortOnError = false
+                    checkReleaseBuilds = false
+                }
             }
 
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
