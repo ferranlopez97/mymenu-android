@@ -13,6 +13,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.plugin.compose")
+                apply("de.mannodermaus.android-junit5")
             }
 
             configure<ApplicationExtension> {
@@ -46,6 +47,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 add("implementation", platform(libs.findLibrary("androidx-compose-bom").get()))
                 add("implementation", libs.findLibrary("androidx-core-ktx").get())
                 add("implementation", libs.findLibrary("androidx-lifecycle-runtime-ktx").get())
+                add("implementation", libs.findLibrary("androidx-lifecycle-runtime-compose").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui-graphics").get())
                 add("implementation", libs.findLibrary("androidx-compose-ui-tooling-preview").get())
@@ -53,6 +55,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("koin-android").get())
                 add("implementation", libs.findLibrary("koin-androidx-compose").get())
                 add("debugImplementation", libs.findLibrary("androidx-compose-ui-tooling").get())
+
+                add("testImplementation", project(":testing"))
             }
         }
     }

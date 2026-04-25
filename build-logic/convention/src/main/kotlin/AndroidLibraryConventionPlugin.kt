@@ -12,6 +12,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
+                apply("de.mannodermaus.android-junit5")
             }
 
             configure<LibraryExtension> {
@@ -38,6 +39,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx-core-ktx").get())
                 add("implementation", libs.findLibrary("kotlinx-coroutines-core").get())
                 add("implementation", libs.findLibrary("koin-android").get())
+
+                add("testImplementation", project(":testing"))
             }
         }
     }

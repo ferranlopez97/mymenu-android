@@ -11,6 +11,4 @@ dependencies {
     implementation(project(":core:presentation"))
     implementation(project(":feature:home:domain"))
     implementation(project(":feature:authentication:domain"))
-
-    implementation(libs.androidx.lifecycle.runtime.compose)
 }

@@ -36,7 +36,6 @@ dependencies {
     implementation(project(":feature:notes:presentation"))
 
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Navigation 3
