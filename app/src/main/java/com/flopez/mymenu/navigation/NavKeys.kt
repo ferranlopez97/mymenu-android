@@ -8,3 +8,6 @@ data object LoginKey : NavKey
 
 @Serializable
 data object HomeKey : NavKey
+
+@Serializable
+data object NotesKey : NavKey

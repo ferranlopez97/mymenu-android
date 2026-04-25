@@ -2,4 +2,5 @@
     <string name="home_title">Bienvenido</string>
     <string name="home_logout_button">Cerrar sesión</string>
     <string name="home_logout_error">No se pudo cerrar sesión</string>
+    <string name="home_notes_button">Mis notas</string>
 </resources>

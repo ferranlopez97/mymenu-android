@@ -22,8 +22,10 @@ import androidx.navigation3.ui.NavDisplay
 import com.flopez.core.presentation.theme.VerdantPantryTheme
 import com.flopez.feature.authentication.presentation.login.LoginScreen
 import com.flopez.feature.home.presentation.home.HomeScreen
+import com.flopez.feature.notes.presentation.notes.NotesScreen
 import com.flopez.mymenu.navigation.HomeKey
 import com.flopez.mymenu.navigation.LoginKey
+import com.flopez.mymenu.navigation.NotesKey
 import com.flopez.mymenu.root.RootViewModel
 import com.flopez.mymenu.root.RootViewModel.SessionState
 import org.koin.androidx.compose.koinViewModel
@@ -75,7 +77,10 @@ private fun SessionNavHost(session: SessionState) {
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<LoginKey> { LoginScreen() }
-            entry<HomeKey> { HomeScreen() }
+            entry<HomeKey> {
+                HomeScreen(onOpenNotes = { backStack.add(NotesKey) })
+            }
+            entry<NotesKey> { NotesScreen() }
         },
     )
 }
