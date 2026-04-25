@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -75,6 +78,22 @@ private fun SessionNavHost(session: SessionState) {
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
+        transitionSpec = {
+            val targetKey = targetState.entries.lastOrNull()?.contentKey
+            val initialKey = initialState.entries.lastOrNull()?.contentKey
+            val isLogout = targetKey == LoginKey.toString() && initialKey != LoginKey.toString()
+            if (isLogout) {
+                slideInHorizontally { -it } togetherWith slideOutHorizontally { it }
+            } else {
+                slideInHorizontally { it } togetherWith slideOutHorizontally { -it }
+            }
+        },
+        popTransitionSpec = {
+            slideInHorizontally { -it } togetherWith slideOutHorizontally { it }
+        },
+        predictivePopTransitionSpec = { _ ->
+            slideInHorizontally { -it } togetherWith slideOutHorizontally { it }
+        },
         entryProvider = entryProvider {
             entry<LoginKey> { LoginScreen() }
             entry<HomeKey> {

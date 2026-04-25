@@ -7,6 +7,7 @@ object HomeScreenContract {
 
     data class State(
         val isLoggingOut: Boolean = false,
+        val userEmail: String? = null,
     ) : Contract.State
 
     sealed interface Intent : Contract.Intent {
