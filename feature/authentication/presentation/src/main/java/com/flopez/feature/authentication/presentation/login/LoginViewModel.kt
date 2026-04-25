@@ -53,7 +53,7 @@ class LoginViewModel(
         viewModelScope.launch {
             loginUseCase.execute(
                 LoginUseCase.Params(
-                    username = state.value.username,
+                    username = state.value.username.lowercase(),
                     password = state.value.password,
                 )
             ).onSuccess {
