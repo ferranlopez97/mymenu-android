@@ -75,6 +75,14 @@ private fun HomeContent(
                 style = VerdantTheme.typography.headlineSmall,
             )
 
+            uiState.userEmail?.let { email ->
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = email,
+                    style = VerdantTheme.typography.bodyMedium,
+                )
+            }
+
             Spacer(Modifier.height(24.dp))
 
             SimpleButton(

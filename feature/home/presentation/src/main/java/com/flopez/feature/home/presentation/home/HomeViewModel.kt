@@ -6,6 +6,7 @@ import com.flopez.core.domain.usecase.base.onError
 import com.flopez.core.presentation.mvi.BaseViewModel
 import com.flopez.core.presentation.string.UIText
 import com.flopez.feature.authentication.domain.usecase.LogoutUseCase
+import com.flopez.feature.authentication.domain.usecase.ObserveCurrentUserEmailUseCase
 import com.flopez.feature.home.presentation.R
 import com.flopez.feature.home.presentation.home.model.HomeScreenContract.Effect
 import com.flopez.feature.home.presentation.home.model.HomeScreenContract.Intent
@@ -14,7 +15,16 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val logoutUseCase: LogoutUseCase,
+    observeCurrentUserEmail: ObserveCurrentUserEmailUseCase,
 ) : BaseViewModel<State, Intent, Effect>(State()) {
+
+    init {
+        viewModelScope.launch {
+            observeCurrentUserEmail().collect { email ->
+                updateState { copy(userEmail = email) }
+            }
+        }
+    }
 
     override fun onIntent(intent: Intent) {
         when (intent) {
